@@ -1,0 +1,788 @@
+#NEW_ROUNDS_AND_CHANGES
+#CREATED BY AREALGUYWITHAJOB / RIVIE13
+#FOR PROJECTILE LAUNCHER REWORK 2.0
+#LAST EDIT: 5/31/2023
+
+# IF LOOKING AT THIS CODE AS AN OUTSIDER I SUGGEST YOU DO THE FOLLOWING:
+  #SEARCH FOR "Original Test Creation" AND READ THE COMMENTS THERE
+  #SEARCH FOR "GUIDE" AND READ THE COMMENTS THERE
+  #THEN READ FROM THE CREATION OF ROUNDS SECTION AND SKIP OVER ANY PREREAD PARTS AS NEEDED
+# IF YOU STILL HAVE QUESTIONS GO TO THE DISCORD AND ASK THERE 
+
+
+
+
+##########                             TODO:                         ##############################################
+#  ----Round creation stuff-----
+# Create new bounce rounds for different variations of round and make them different quality - done
+# make them vary in bounce number, speed, and power loss, charge cost, and special damage application chance - done
+# create new regular rounds (nonbounce) that also vary like above - done
+# find a way to limit frag/round application by quality
+# add rounds to stores / vendors
+
+# ----launcher stuff---- $$$ IN DIFFERENT FILES $$$
+#Create individual tweak files for each new launcher so that I can create new stats for each launcher - done but will delete
+#Make sure that each launcher now starts with respective biotechnica kinetic round based on quality - done I think? testing now
+#remove / delete records of projectile launchers that come from the game -- edited them insted -- done I think? testing now
+#add launchers to stores / vendors - only common, uncommon, and iconic
+#change prices on launchers -- looks like multiple things affect this have to check into it
+
+# ----Cooldown stuff----
+# projectile launcher cooldown not affected by time dilation (I think this will be easier) - done...sort of
+
+# -----Frag creation stuff----- $$$ IN DIFFERENT FILE $$$
+# movement speed?
+# jump height?
+# 100% crit chance?
+# 100% stun chance?
+# faster health regen?
+# add fragments to stores / vendors
+###################################################################################################################
+
+
+##########             Changes           #################################################################################
+
+#This will change for every launcher all the time
+#I can't find a way to do it individually
+#This line will make the launcher cooldown not affected by time dilation
+#i.e. will cooldown in normal time at all times
+#maybe create a setting for those players who want to experience that?
+BaseStatusEffect.ProjectileLauncherCooldown.isAffectedByTimeDilationPlayer: false
+
+#testing this out need to change Items.ProjectileLauncher_inline1.itemPartPreset under gamedataSlotItemPartPreset_Record
+#change the way launcher is set up see if can set up here in yaml
+  #change the base rounds to the projectile rounds in each launcher
+Items.ProjectileLauncher_inline1.itemPartPreset: Items.BiotechnicaKineticProjectileRoundM3
+
+#Create new records for the epic and legendary projectile launchers .slotPartList
+#need to create 2 gamedataSlotItemPartPreset_Record
+
+#Changing the epic launcher to have the epic kinetic round as the base round
+Items.ProjectileLauncherEpic_inline1:
+  $type: gamedataSlotItemPartPreset_Record
+  itemPartPreset: Items.BiotechnicaKineticProjectileRoundM4
+  slot: AttachmentSlots.ProjectileLauncherRound
+
+#editing record to replace with the one made above -- in array format because slotPartListPreset is an array.
+Items.ProjectileLauncherEpic.slotPartListPreset: [ Items.ProjectileLauncher_inline0, Items.ProjectileLauncherEpic_inline1, Items.ProjectileLauncher_inline2, Items.ProjectileLauncher_inline3 ]
+#testing above code to see it works --- this works pass it on to next stuff
+
+#Changing the legendary launcher to have the legendary kinetic round as the base round
+Items.ProjectileLauncherLegendary_inline1:
+  $type: gamedataSlotItemPartPreset_Record
+  itemPartPreset: Items.BiotechnicaKineticProjectileRoundM5
+  slot: AttachmentSlots.ProjectileLauncherRound
+
+Items.ProjectileLauncherLegendary.slotPartListPreset: [ Items.ProjectileLauncher_inline0, Items.ProjectileLauncherLegendary_inline1, Items.ProjectileLauncher_inline2, Items.ProjectileLauncher_inline3 ]
+##works
+
+#fix the iconic launcher so it has legendary round
+# it is taken care of in the iconic_projectile_launcher.tweak file it just
+#references the legendary launcher which was already fixed here when it is being created for game files
+
+
+######Make it so that all rounds / fragments for the projectile launcher are restricted by
+#parent item quality level i.e. rare launcher can't put on epic and legendary frags / rounds
+#Test code below
+#Items.ProjectileLauncherRoundBase.qualityRestrictedByParent: true
+#this doesn't work
+
+
+#Change the charged attack on the rare EMP round in the game so that it will do zero bounces
+Items.ElectricDamageRound.secondaryAttack: Attacks.EMPProjectile
+
+
+
+
+
+
+
+#########        Creation of rounds                    ##########################################################
+
+#                                    BIOTECHNICA ROUNDS                                                         #
+
+### Biotechnica kinetic projectile round COMMON ###
+
+## NEED TO DECIDE IF WANT TO MAKE THIS TRACKING BULLET OR NOT - RIGHT NOW IT IS TRACKING
+## TRACKING OR REGULAR ARE enumName FOR EACH
+## EX. CODE: quickActionlaunchMode: Regular or chargeActionlaunchMode: Regular
+
+#This will become the base round in the common launcher
+
+#no bounces, slower, higher round charge costs (2 uncharged, 1 charged), lower damage
+#lower lifetime, most energy loss (doesn't matter for common because no bounce), smallest kinetic blast, no stun
+Items.BiotechnicaKineticProjectileRoundM1:
+  $base: Items.ExplosiveDamageRound
+  displayName: biotechnica_kinetic_projectile_m1_local_name
+  localizedDescription: biotechnica_kinetic_projectile_m1_local_desc
+  onCollisionStimType: Explosion
+  collisionAction: Stop
+  collisionActionCharged: Stop
+  detonationDelay: 1
+  quality: Quality.Common
+  lifetime: 3
+  attack: Attacks.KineticProjectileCommon
+  secondaryAttack: Attacks.KineticProjectileCommonCharged
+  startVelocity: 20
+  startVelocityCharged: 30
+  onCollisionStimBroadcastRadius: 10 #no idea what this does want to test it
+  quickActionChargeCost: 50
+  chargeActionChargeCost: 100 # testing this I think max ammo capacity / charge is 100 have to check
+  #the above chargeActionChargeCost works as intended
+  #adding in the below code for the middle UI stuff into the above round test 3? - this structure works as intended
+  OnEquip:
+    #remove original modifier for the UI data
+    - !remove Items.ExplosiveDamageRound_inline0
+    #add in the new inline 0
+    - !append Items.BiotechnicaKineticProjectileRoundM1_inline0
+
+#new attempt at changing old explosive damage description to new description
+Items.BiotechnicaKineticProjectileRoundM1_inline0:
+  $type: gamedataGameplayLogicPackage_Record
+  UIData: Items.BiotechnicaKineticProjectileRoundM1_inline1
+
+Items.BiotechnicaKineticProjectileRoundM1_inline1:
+  $type: gamedataGameplayLogicPackageUIData_Record
+  localizedDescription: The kinetic projectile round will release a small blast of kinetic energy on impact with a target. Higher quality variants will have more bounces, stun abilities, higher damage, larger kinetic blast, and other effects.
+
+
+##testing out new way to create inline records for rounds so that I can find and mod them later in native settings integration
+#create new round attacks this will be in separate YAML file called new_projectile_launcher_round_attacks
+#will delete new_projectile_launcher_round_attacks.tweak after done creating stuff here
+#will reference stuff from new_projectile_launcher_round_attacks.yaml
+
+#### ABOVE IS DONE!!! ####
+
+
+### Biotechnica kinetic projectile round UNCOMMON ###
+
+## NEED TO DECIDE IF WANT TO MAKE THIS TRACKING BULLET OR NOT - RIGHT NOW IT IS TRACKING
+## TRACKING OR REGULAR ARE enumName FOR EACH
+## EX. CODE: quickActionlaunchMode: Regular or chargeActionlaunchMode: Regular
+
+#This will become the base round in the uncommon launcher
+
+#1 bounce, slower, higher round charge costs, (3 uncharged, 1 charged), lower damage
+#lower lifetime, more energy loss, small kinetic blast, no stun
+Items.BiotechnicaKineticProjectileRoundM2:
+  $base: Items.BiotechnicaKineticProjectileRoundM1
+  displayName: biotechnica_kinetic_projectile_m2_local_name
+  localizedDescription: biotechnica_kinetic_projectile_m2_local_desc
+  collisionAction: Bounce
+  collisionActionCharged: Bounce
+  maxBounceCount: 1
+  quality: Quality.Uncommon
+  lifetime: 5
+  attack: Attacks.KineticProjectileUncommon
+  secondaryAttack: Attacks.KineticProjectileUncommonCharged
+  startVelocity: 40
+  startVelocityCharged: 50
+  quickActionChargeCost: 33
+  energyLossFactor: .3
+
+
+### Biotechnica kinetic projectile round RARE #####
+## NEED TO DECIDE IF WANT TO MAKE THIS TRACKING BULLET OR NOT - RIGHT NOW IT IS TRACKING
+## TRACKING OR REGULAR ARE enumName FOR EACH
+## EX. CODE: quickActionlaunchMode: Regular or chargeActionlaunchMode: Regular
+
+######## change the attacks in here and make sure this one does some stun at least on charged shot
+
+#based on the explosive damage round
+#will test by setting detonation delay to -1 (doesn't work)
+#and will also change both collisionAction
+#and collisionActionCharged to be bounce
+#change round lifetime
+
+####### need to find a way to lower the damage it does to vehicles
+#maybe just lower overall damage
+
+## for future reference, when making a new round attack need to use an effect tag provided by the game
+#can find these by looking up effectTag = "tranquilizer_round"
+#others will be near there
+
+### will need to change stats for below based on other rounds ###
+#2 bounces, med speed, med round charge costs (4 uncharged, 2 charged), med damage
+#med lifetime, some energy loss, med kinetic blast, no stun
+
+# this will become main round in the rare projectile launcher
+
+Items.BiotechnicaKineticProjectileRoundM3:  # the name of the item how you will find it in CET console in the game
+  $base: Items.BiotechnicaKineticProjectileRoundM2         # what it is based off of 
+  displayName: biotechnica_kinetic_projectile_m3_local_name # from JSON file
+  localizedDescription: biotechnica_kinetic_projectile_m3_local_desc # from JSON file
+  onCollisionStimType: Explosion # the round will only cause damage if this is Explosion
+  collisionAction: Bounce # self explanatory
+  collisionActionCharged: Bounce # self explanatory
+  detonationDelay: 1 # how long till boom - doesn't seem to do too much tbh
+  maxBounceCount: 2 # self explanatory
+  quality: Quality.Rare # self explanatory
+  lifetime: 7 # how long the bullet lasts
+  attack: Attacks.KineticProjectileRare # this is in new_projectile_launcher_round_attacks.tweak
+  secondaryAttack: Attacks.KineticProjectileRareCharged # this is in new_projectile_launcher_round_attacks.tweak
+  # only way I could create kinetic rounds was by creating a tweak file that followed the projectile_launcher_round_attacks.tweak
+  # file. I made the effectTag be "tranquilizer_round" because you need to use one of the game provided effects to make damage happen
+  # also copied the explosive damage round info from same file and changed range of explosion.
+  startVelocity: 60
+  startVelocityCharged: 70
+  quickActionChargeCost: 25
+  chargeActionChargeCost: 50
+  energyLossFactor: .45
+
+
+### Biotechnica kinetic projectile round EPIC ###
+
+#This will become the base round in the epic launcher
+
+#3 bounces, fast speed, low round charge costs (4 uncharged, 3 charged), high damage
+#long lifetime, less energy loss, big kinetic blast, stun
+
+Items.BiotechnicaKineticProjectileRoundM4:
+  $base: Items.BiotechnicaKineticProjectileRoundM3
+  displayName: biotechnica_kinetic_projectile_m4_local_name
+  localizedDescription: biotechnica_kinetic_projectile_m4_local_desc
+  maxBounceCount: 3
+  quality: Quality.Epic
+  lifetime: 9
+  attack: Attacks.KineticProjectileEpic
+  secondaryAttack: Attacks.KineticProjectileEpicCharged
+  startVelocity: 80
+  startVelocityCharged: 90
+  chargeActionChargeCost: 33
+  energyLossFactor: .6
+
+
+### Biotechnica kinetic projectile round LEGENDARY ###
+
+#This will become the base round in the legendary launcher
+
+#3 bounces, fastest speed, lowest round charge cost (5 uncharged, 4 charged), highest damage
+#longest lifetime, no / little energy loss, big kinetic blast, stun
+
+Items.BiotechnicaKineticProjectileRoundM5:
+  $base: Items.BiotechnicaKineticProjectileRoundM4
+  displayName: biotechnica_kinetic_projectile_m5_local_name
+  localizedDescription: biotechnica_kinetic_projectile_m5_local_desc
+  quality: Quality.Legendary
+  lifetime: 11
+  attack: Attacks.KineticProjectileLegendary
+  secondaryAttack: Attacks.KineticProjectileLegendaryCharged
+  startVelocity: 100
+  startVelocityCharged: 110
+  quickActionChargeCost: 20
+  chargeActionChargeCost: 25
+  energyLossFactor: .75
+
+
+################################################################################################################################################################
+
+
+#                                                     ZETATECH ROUNDS                                                #
+
+### Zetatech Bounce round RARE ###
+
+#copied the epic down from below
+#will need to change these stats to compensate
+
+#3 bounces, slowest speed, highest round charge cost(4 uncharged, 2 charged), lowest damage
+#lowest lifetime, highest energy loss, smallest blast, no stun
+
+Items.ZetatechBounceRoundM1:
+  $base: Items.ElectricDamageRound
+  displayName: zetatech_bounce_round_m1_local_name
+  localizedDescription: zetatech_bounce_round_m1_local_desc
+  startVelocityCharged: 70
+  startVelocity: 50
+  collisionAction: Bounce
+  maxBounceCount: 3
+  energyLossFactor: .7
+  quality: Quality.Rare
+  lifetime: 10
+  #no stun on the rare round stun only for epic and above
+  attack: Attacks.ZetatechBounceRoundRare
+  secondaryAttack: Attacks.ZetatechBounceRoundRareCharged
+  #change the ui stuff
+  OnEquip:
+    #remove the electric damage text
+    - !remove Items.ElectricDamageRound_inline0
+    #add in the new inline 0
+    - !append Items.ZetatechBounceRoundM1_inline0
+
+#create the new inlines for the new UI data so that it will replace the old stuff
+Items.ZetatechBounceRoundM1_inline0:
+  $type: gamedataGameplayLogicPackage_Record
+  UIData: Items.ZetatechBounceRoundM1_inline1
+
+Items.ZetatechBounceRoundM1_inline1:
+  $type: gamedataGameplayLogicPackageUIData_Record
+  localizedDescription: The Bounce Round will explode and ricochet off of any point of contact creating an electric field that will damage any enemies near it. Higher quality variants have higher number of bounces, larger electric fields, more damage, different elemental effects, and other changes.
+
+
+##########                    Original Test Creation                                 ####################################
+
+
+###This allows for the creation of the round.
+#The zetatech round is based off of the main electric 
+#round and that can be found in your cp 2077 folder in
+#Cyberpunk2077/tools/redmod/tweaks/base/gameplay/static_data/database/items/cyberware/arms/projectile_launcher_fragments.tweak
+#$base is the reference to electric round
+#display name is reference to en-us.json file which can be found 
+#ProjectileLauncherRework/localization/en-us.json
+#localized description is reference to same path above.
+#displayName and localizedDescripton must match the en-us.json file or a relevant translation file
+#Everything under that is to change the data/characteristics of the round to make it different from
+#base electric round
+
+######## will need to change stats of this round further based on the other rounds created
+
+### Zetatech Bounce Round EPIC ###
+
+#5 bounces, med speed, med round charge cost(5 uncharged, 3 charged), med damage
+#med lifetime, med energy loss, med blast, stun
+
+Items.ZetatechBounceRoundM2:
+  $base: Items.ZetatechBounceRoundM1
+  displayName: zetatech_bounce_round_m2_local_name
+  localizedDescription: zetatech_bounce_round_m2_local_desc
+  startVelocityCharged: 110
+  startVelocity: 80
+  collisionAction: Bounce
+  maxBounceCount: 5
+  energyLossFactor: .8
+  quality: Quality.Epic
+  lifetime: 13
+  ##before this was .EMPPRojectileCharged testing to see if can change attack type of round.
+  attack: Attacks.ZetatechBounceRoundEpic
+  secondaryAttack: Attacks.ZetatechBounceRoundEpicCharged
+  quickActionChargeCost: 20
+  chargeActionChargeCost: 33
+
+
+### Zetatech Bounce Round LEGENDARY ###
+
+#7 bounces, fast speed, low round charge cost(6 uncharged, 4 charged), high damage
+#high lifetime, low energy loss, big blast, stun
+
+Items.ZetatechBounceRoundM3:
+  $base: Items.ZetatechBounceRoundM2
+  displayName: zetatech_bounce_round_m3_local_name
+  localizedDescription: zetatech_bounce_round_m3_local_desc
+  startVelocity: 110
+  startVelocityCharged: 140
+  collisionAction: Bounce
+  maxBounceCount: 7
+  energyLossFactor: .9
+  quality: Quality.Legendary
+  lifetime: 20
+  quickActionChargeCost: 15
+  chargeActionChargeCost: 25
+  attack: Attacks.ZetatechBounceRoundLegendary
+  secondaryAttack: Attacks.ZetatechBounceRoundLegendaryCharged
+
+
+########################### Iconic round 1
+
+### Zetatech Overdrive Round ICONIC ###
+
+#turn the dial up to 11 man
+
+#figure out how to turn something iconic in YAML using statModifier or what?
+
+Items.ZetatechOverdriveRound:
+  $base: Items.ZetatechBounceRoundM3
+  displayName: zetatech_bounce_round_iconic_local_name
+  localizedDescription: zetatech_bounce_round_iconic_local_desc
+  startVelocity: 180
+  startVelocityCharged: 200
+  maxBounceCount: 11
+  energyLossFactor: 1.5
+  lifetime: 30
+  quickActionChargeCost: 10
+  chargeActionChargeCost: 20
+
+
+############################################################# Millitech
+
+########################### Iconic round 2
+
+### Millitech Rainbow Round ICONIC ###
+
+#all damage types together for this one or at least I'll try, no bounce
+
+#figure out how to make iconic?
+
+# need to do further tests to see if this actually works as intended right now I don't think it does
+
+Items.MillitechRainbowRound:
+  $base: Items.ExplosiveDamageRound
+  displayName: millitech_rainbow_round_iconic_local_name
+  localizedDescription: millitech_rainbow_round_iconic_local_desc
+  startVelocity: 250
+  startVelocityCharged: 270
+  lifetime: 7
+  quickActionChargeCost: 10
+  chargeActionChargeCost: 20
+  quality: Quality.Legendary
+  attack: Attacks.RainbowRound
+  secondaryAttack: Attacks.RainbowRoundCharged
+    #change the ui stuff
+  OnEquip:
+    #remove original modifier for the UI data
+    - !remove Items.ExplosiveDamageRound_inline0
+    #add in the new inline 0
+    - !append Items.MillitechRainbowRound_inline0
+
+#new attempt at changing old explosive damage description to new description
+Items.MillitechRainbowRound_inline0:
+  $type: gamedataGameplayLogicPackage_Record
+  UIData: Items.MillitechRainbowRound_inline1
+
+Items.MillitechRainbowRound_inline1:
+  $type: gamedataGameplayLogicPackageUIData_Record
+  localizedDescription: The Rainbow Round will release a large explosion on impact with a target. Although it may look like a normal explosion, your enemies that feel this blast will wish it was a regular explosive round. Spread thermal, chemical, electric, and physical damage to your opponents with every shot of the Rainbow Round.
+
+
+##############################################################################################################################################################################################################################################################################################################################################################################
+
+
+####### NEW QUALITY VARIANTS OF ORIGINAL ROUNDS #############################################
+
+### Uncommon Explosive Round ###
+Items.ExplosiveDamageRoundUncommon:
+  $base: Items.ExplosiveDamageRound
+  startVelocity: 40
+  startVelocityCharged: 50
+  lifetime: 3
+  quickActionChargeCost: 33
+  chargeActionChargeCost: 50
+  quality: Quality.Uncommon
+  attack: Attacks.MissileProjectileUncommon
+  secondaryAttack: Attacks.MissileProjectileUncommonCharged
+
+### Epic Explosive Round ###
+Items.ExplosiveDamageRoundEpic:
+  $base: Items.ExplosiveDamageRound
+  startVelocity: 120
+  startVelocityCharged: 160
+  lifetime: 4
+  quickActionChargeCost: 20
+  chargeActionChargeCost: 33
+  quality: Quality.Epic
+  attack: Attacks.MissileProjectileEpic
+  secondaryAttack: Attacks.MissileProjectileEpicCharged
+
+### Legendary Explosive Round ###
+Items.ExplosiveDamageRoundLegendary:
+  $base: Items.ExplosiveDamageRound
+  startVelocity: 170
+  startVelocityCharged: 210
+  lifetime: 5
+  quickActionChargeCost: 15
+  chargeActionChargeCost: 25
+  quality: Quality.Legendary
+  attack: Attacks.MissileProjectileLegendary
+  secondaryAttack: Attacks.MissileProjectileLegendaryCharged
+
+### Epic Electric Damage Round ###
+Items.ElectricDamageRoundEpic:
+  $base: Items.ElectricDamageRound
+  startVelocity: 100
+  startVelocityCharged: 75
+  lifetime: 3
+  quickActionChargeCost: 20
+  chargeActionChargeCost: 33
+  maxBounceCount: 1
+  quality: Quality.Epic
+  attack: Attacks.EMPProjectileEpic
+  secondaryAttack: Attacks.EMPProjectileEpicCharged
+
+### Legendary Electric Damage Round ###
+#add extra bounce
+#make both attacks bounce
+Items.ElectricDamageRoundLegendary:
+  $base: Items.ElectricDamageRound
+  startVelocity: 150
+  startVelocityCharged: 100
+  quickActionChargeCost: 15
+  chargeActionChargeCost: 25
+  lifetime: 4
+  maxBounceCount: 2
+  collisionAction: bounce
+  quality: Quality.Legendary
+  attack: Attacks.EMPProjectileLegendary
+  secondaryAttack: Attacks.EMPProjectileLegendaryCharged
+
+### Epic Chemical Round ###
+Items.ChemicalDamageRoundEpic:
+  $base: Items.ChemicalDamageRound
+  startVelocity: 100
+  startVelocityCharged: 130
+  quickActionChargeCost: 20
+  chargeActionChargeCost: 33
+  lifetime: 4
+  quality: Quality.Epic
+  attack: Attacks.ChemicalProjectileEpic
+  secondaryAttack: Attacks.ChemicalProjectileEpicCharged
+
+### Legendary Chemical Round ###
+# make bounce
+Items.ChemicalDamageRoundLegendary:
+  $base: Items.ChemicalDamageRound
+  startVelocity: 150
+  startVelocityCharged: 180
+  quickActionChargeCost: 15
+  chargeActionChargeCost: 25
+  collisionAction: Bounce
+  collisionActionCharged: Bounce
+  maxBounceCount: 2
+  lifetime: 5
+  quality: Quality.Legendary
+  attack: Attacks.ChemicalProjectileLegendary
+  secondaryAttack: Attacks.ChemicalProjectileLegendaryCharged
+
+### Epic Thermal Round ###
+Items.ThermalDamageRoundEpic:
+  $base: Items.ThermalDamageRound
+  startVelocity: 100
+  startVelocityCharged: 130
+  quickActionChargeCost: 20
+  chargeActionChargeCost: 33
+  lifetime: 4
+  quality: Quality.Epic
+  attack: Attacks.ThermalProjectileEpic
+  secondaryAttack: Attacks.ThermalProjectileEpicCharged
+
+### Legendary Thermal Round ###
+# make bounce
+Items.ThermalDamageRoundLegendary:
+  $base: Items.ThermalDamageRound
+  startVelocity: 150
+  startVelocityCharged: 180
+  quickActionChargeCost: 15
+  chargeActionChargeCost: 25
+  collisionAction: Bounce
+  collisionActionCharged: Bounce
+  maxBounceCount: 2
+  lifetime: 5
+  quality: Quality.Legendary
+  attack: Attacks.ThermalProjectileLegendary
+  secondaryAttack: Attacks.ThermalProjectileLegendaryCharged
+
+
+################################################### Adding items to ripperdocs throughout the map ###########################################################################################
+
+
+### Need to add the following items to different ripperdocs throughout the game
+
+### will test to see if this works by sending all stuff to northside ripperdoc
+
+### items list for reference: Items.BiotechnicaKineticProjectileRoundM1, Items.BiotechnicaKineticProjectileRoundM2,
+# biotechnica M3 - M5 , Items.ExplosiveDamageRoundRare, Items.ZetatechBounceRoundM1, zetatechM2, zetatechM3,
+# Items.ZetatechOverdriveRound, Items.MillitechRainbowRound, Items.ExplosiveDamageRoundUncommon,
+# Items.ExplosiveDamageRoundEpic, Items.ExplosiveDamageRoundLegendary, Items.ThermalDamageRoundEpic, Items,ThermalDamageRoundLegendary,
+# Items.ChemicalDamageRoundEpic, Items.ChemicalDamageRoundLegendary, Items.ElectricDamageRoundEpic, Items.ElectricDamageRoundLegendary
+
+
+############################################################################# Vendor Reqs / Vendor inventory additions #####################################################
+
+
+#This code is different from the guides / manuals / tutorials. This is the only way that I could get the items to show up in ripperdoc inventory
+
+###new test to create new gamedataVendorItem_Record and add it to vic's clinic
+
+###attempt to make new availabilityPrereq based on different street levels
+
+#level 50 street cred Prereq creation
+Vendors.StreetCred50Availability: #how to find it in CET
+  $type: gamedataStatPrereq_Record #record type
+  $base: Vendors.StreetCredAvailability #this is in gamedataStatPrereq_Record
+  valueToCheck: 50 ### level 50 street cred required for this item
+
+#level 10 street cred Prereq creation
+Vendors.StreetCred10Availability:
+  $type: gamedataStatPrereq_Record
+  $base: Vendors.StreetCredAvailability
+  valueToCheck: 10 ### level 10 street cred required for this item
+
+#legendary explosive round record creation to add to vic's inventory ( .itemStock )
+Vendors.wat_lch_ripperdoc_01_explosive_round_legendary: 
+  $type: gamedataVendorItem_Record
+  item: Items.ExplosiveDamageRoundLegendary
+  quantity: [ Vendors.CanBePresent ] ### rounds / fragments have to be Vendors.CanBePresent
+
+#Iconic Projectile Launcher record creation to add to vic's inventory ( .itemStock )
+Vendors.wat_lch_ripperdoc_01_iconic_projectile_launcher:
+  $type: gamedataVendorItem_Record
+  item: Items.IconicProjectileLauncher
+  quantity: [ Vendors.IsPresent ]
+  availabilityPrereq: Vendors.StreetCred50Availability
+
+#add the items to vic's inventory
+Vendors.wat_lch_ripperdoc_01.itemStock:
+  - !append-once Vendors.wat_lch_ripperdoc_01_explosive_round_legendary
+  - !append-once Vendors.wat_lch_ripperdoc_01_iconic_projectile_launcher
+
+
+#Buck/scav ripperdoc in kabuki will get common launcher create the record to add to buck's ( .itemStock )
+Vendors.wat_kab_ripperdoc_02_common_projectile_launcher:
+  $type: gamedataVendorItem_Record
+  item: Items.CommonProjectileLauncher
+  quantity: [ Vendors.IsPresent ]
+  availabilityPrereq: Vendors.StreetCredAvailability
+
+#add to inventory (Buck)
+Vendors.wat_kab_ripperdoc_02.itemStock:
+  - !append-once Vendors.wat_kab_ripperdoc_02_common_projectile_launcher
+
+##creating record for dr.chrome inventory of uncommon projectile launcher
+Vendors.wat_kab_ripperdoc_03_uncommon_projectile_launcher: 
+  $type: gamedataVendorItem_Record
+  item: Items.UncommonProjectileLauncher
+  quantity: [ Vendors.IsPresent ]
+  availabilityPrereq: Vendors.StreetCred10Availability
+
+#add to inventory (Dr.Chrome)
+Vendors.wat_kab_ripperdoc_03.itemStock:
+  - !append-once Vendors.wat_kab_ripperdoc_03_uncommon_projectile_launcher
+
+######################################################################################################
+
+#Add the rounds to other stores
+#will not add the projectile rounds to the store since they come with the launchers already
+
+#explosive uncommon
+#send to Dr.Chrome
+
+#explosive epic
+
+#bounce round m1
+
+#bounce round m2
+
+#bounce round m3
+
+#overdrive round
+
+#rainbow round
+
+#electric epic
+
+#electric legendary
+
+#thermal epic
+
+#thermal legendary
+
+######################################################################################################
+
+#### I borrowed this from RMK stealthrunner mod thank you very much!!!!!!
+###This comment is pulled directly from the RMK cyberware_camo.yaml file part of their stealthrunner mod
+
+# Vendors.bls_ina_se1_ripperdoc_01
+# Vendors.hey_spr_ripperdoc_01
+# Vendors.pac_wwd_ripperdoc_01
+# Vendors.std_arr_ripperdoc_01
+# Vendors.std_rcr_ripperdoc_01
+# Vendors.wat_kab_ripperdoc_01 # Watson Kabuki South
+# Vendors.wat_kab_ripperdoc_02 # Scav guy
+# Vendors.wat_kab_ripperdoc_03 # Dr. Chrome
+# Vendors.wat_lch_ripperdoc_01 # Vic
+# Vendors.wat_nid_ripperdoc_01
+# Vendors.wbr_jpn_ripperdoc_01 # not fingers
+# Vendors.wbr_jpn_ripperdoc_02 # Fingers
+# Vendors.wbr_hil_ripdoc_01 # Nina
+# Vendors.cct_dtn_ripdoc_01
+
+
+
+
+
+######################################################  GUIDE  ##############################################################################################
+# I am writing this now in case I forget so that later it is easier to get back into this stuff
+
+# to make a new cyberware item such as a launcher / fragment / round one should follow these steps
+
+# start by creating a JSON file in Wolvenkit
+  # launch wkit
+  # start new / open a project
+    # If new pick a name you like
+    # then pick a location I usually do desktop
+
+#select New File button
+  # select JSON file
+  # name this file "en-us.json" (VERY IMPORTANT: DON'T SELECT ANOTHER NAME)
+  # save this file in (your mod name)/localization/en-us.json
+    # The full path should be source/archive/(your mod name)/localization/en-us.json
+
+# in the JSON file:
+# add in new array localizationPersistenceOnScreenEntry (this is where you keep the name and description of items)
+# create new localizationPersistenceOnScreenEntries
+  # femaleVariant is the name that is Displayed on the UI info tip box that shows up in screen when cursor hovers over a item
+  # secondaryKey is how the game finds the name you want displayed.
+
+# create as many entries as one wants for all the different things that are needed
+
+# After the entries are created in JSON it is time to make them in YAML files
+
+# In Wkit create a New YAML file
+  # under the TweakDB section select the TweakXL file type (the only option)
+  # this will be the yaml file used
+  # recommended to create separate files for different item types (will be shown in this example)
+
+
+# when creating a new opject it is best to just copy off of another object
+# making one from scratch has too many pieces, it's easy to miss something and break your mod
+# making a mod is hard enough don't make it harder for yourself
+
+####### This is (for me at least) the hardest part about making these mods it is important to follow
+####### very closely to instructions given
+
+# This basic format to create a new item in YAML is:
+#NOTE: keep spacing shown
+#Items.BiotechnicaKineticProjectileRoundM1:      ---- this is name of new item, this is how you add it to your inventory through CET console and how you can find it in CET, change it in CET etc.
+#  $base: Items.ExplosiveDamageRound   ---- this is what the new item will be based on. hence the name base. it copies everything relevant to the referenced item and adds it to your item. you can change this later.
+#  displayName: (femaleVariant from JSON file for this item)
+#  localizedDescription: (secondaryKey from JSON file for this item)
+
+# everything after this is stuff you want to change or add.
+# it should be known that not everything can be added to certain items and 
+# that there are rules for the syntax that will not be explored here
+# I will explain what I do / did to the best of my abillity.
+# It may be best to open the game, go into the CET console and mess with some of the values in records/flats
+# to figure out what can and can't change with your specific item
+# not everything will make a difference
+# not every change you want to do can be done or maybe you don't know how to do it yet
+# I am still trying to figure out how to make the launcher full auto but I doubt that will happen.
+# reference the above to see how the stuff works
+
+# after adding changes that you are sure work / make a difference create a .archive.xl file
+# this can be done in wkit by pressing the New File button
+  # press ArchiveXL then press ArchiveXL file
+  # should be: (your mod name).archive.xl then hit create
+
+#This file has the following inside of it:
+#localization:
+#  onscreens:
+#    en-us: (Your mod name)\localization\en-us.json
+
+#It is important that this is correct or else you won't see your information show up on screen. You can add more paths for different languages later.
+
+#Now it is time to test the mod
+
+# go into wkit and find the install and launch option under green arrow
+
+# press install and launch
+
+# after game shows CDPR logo go to game directory --> red4ext find the TweakXL logs and check to see if there are any errors
+
+# when loaded into the game open the CET console
+
+# input: Game.AddToInventory("Items.name_of_new_item", 1)
+
+# find the item and equip
+
+# test in game to see if works
+
+# if doesn't work try to do more digging in files to see where the change you want is 
+# try searching for thing in different ways
+# ask questions on the discord

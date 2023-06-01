@@ -1,0 +1,17 @@
+package Items
+using RTDB, BaseStats, Prereqs
+
+
+[ notQueryable ]
+IconicProjectileLauncher : ProjectileLauncherLegendary
+{
+	quality = "Quality.Legendary";
+	statModifiers +=
+	[
+		{
+			statType = "BaseStats.IsItemIconic";
+			modifierType = "Additive";
+			value = 1f;
+		} : ConstantStatModifier
+	];
+}

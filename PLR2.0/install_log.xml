@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<InstalLog Project="PLR2.0" Build_date="5/31/2023 8:28:52 PM">
+  <Files>
+    <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive">
+      <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc">
+        <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc\mod">
+          <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc\mod\PLR2.0.archive</file>
+          <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc\mod\ProjectileLauncherRework.archive.xl</file>
+        </Directory>
+      </Directory>
+    </Directory>
+    <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin">
+      <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64">
+        <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins">
+          <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks">
+            <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods">
+              <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3">
+                <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\db.sqlite3</file>
+                <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\init.lua</file>
+                <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\Projectile Launcher Rework.log</file>
+                <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\Data">
+                  <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\Data\config.json</file>
+                </Directory>
+                <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\modules">
+                  <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\modules\Native Settings Integration.lua</file>
+                  <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\modules\Set Values.lua</file>
+                  <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\modules\utils">
+                    <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR3\modules\utils\config.lua</file>
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+    <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6">
+      <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks">
+        <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\new_projectile_launcher_round_attacks.yaml</file>
+        <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\new_rounds_and_changes.yaml</file>
+      </Directory>
+    </Directory>
+  </Files>
+</InstalLog>
