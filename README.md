@@ -56,6 +56,8 @@ earlier in the game with the right amount of money. There are now quality restri
 All of the launchers now have new base rounds that I have created myself.
 There are also other new rounds that I have created myself and then different variants of already created rounds.
 Some of the rounds that were in the original game will not act like you would expect them to but that will be for you to find out.
+![new launchers pic](https://github.com/rivie13/PLR/assets/52908660/0e3c9716-0b6f-45fc-a4d5-73b39853f88e)
+![new launcher rounds](https://github.com/rivie13/PLR/assets/52908660/b8266e6e-775a-4621-adad-df1614089b31)
 
 
 Future Plans:
