@@ -1,6 +1,18 @@
 # PLR
 Projectile Launcher Rework
 
+### 2.01 update note ###
+
+In order to fix a bug that I am honestly stuck on I have removed a feature to take out a bug.
+This isn't my ideal way of doing things but enough people have complained and I eventually saw the bug
+which then led me to decide this is the best way forward.
+Weapon mod bug won't happen anymore but this also means there is no quality restriction on parts either.
+This means you can put a legendary round on a common launcher.
+So if you want to have quality restrictions you have to pretend for now. Sorry!
+
+#################################
+
+
 Hi everyone. I have finally found the time to rework my original mod and now that I have a new file structure I will be changing my whole GitHub project here.
 
 This mod reworks the projectile launcher weapon in Cyberpunk 2077
