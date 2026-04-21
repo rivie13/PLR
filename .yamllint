@@ -1,0 +1,20 @@
+extends: default
+
+ignore: |
+  node_modules/
+
+rules:
+  brackets: disable
+  comments: disable
+  comments-indentation: disable
+  document-start: disable
+  empty-lines: disable
+  line-length: disable
+  new-line-at-end-of-file: disable
+  new-lines: disable
+  trailing-spaces: disable
+
+yaml-tags:
+  - "!remove"
+  - "!append"
+  - "!append-once"

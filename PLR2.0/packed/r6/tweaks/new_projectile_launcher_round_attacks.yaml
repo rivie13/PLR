@@ -673,11 +673,11 @@ Attacks.MissileProjectileUncommonCharged:
 
 #create the inline stuff
 Attacks.MissileProjectileUncommonCharged_inline1:
-  $base: Attacks.MissileProjectileCharged_inline1
+  $base: Attacks.MissileProjectileCharged_inline0
   value: 1 ## damage value
 
 Attacks.MissileProjectileUncommonCharged_inline2:
-  $base: Attacks.MissileProjectileCharged_inline2
+  $base: Attacks.MissileProjectile_inline1
   value: 1
 
 Attacks.MissileProjectileUncommonCharged_inline3:
@@ -721,11 +721,11 @@ Attacks.MissileProjectileEpicCharged:
 
 #create the inline stuff
 Attacks.MissileProjectileEpicCharged_inline1:
-  $base: Attacks.MissileProjectileCharged_inline1
+  $base: Attacks.MissileProjectileCharged_inline0
   value: 6 ## damage value
 
 Attacks.MissileProjectileEpicCharged_inline2:
-  $base: Attacks.MissileProjectileCharged_inline2
+  $base: Attacks.MissileProjectile_inline1
   value: 3
 
 Attacks.MissileProjectileEpicCharged_inline3:
@@ -775,11 +775,11 @@ Attacks.MissileProjectileLegendaryCharged:
 
 #create the inline stuff
 Attacks.MissileProjectileLegendaryCharged_inline1:
-  $base: Attacks.MissileProjectileCharged_inline1
+  $base: Attacks.MissileProjectileCharged_inline0
   value: 10 ## damage value
 
 Attacks.MissileProjectileLegendaryCharged_inline2:
-  $base: Attacks.MissileProjectileCharged_inline2
+  $base: Attacks.MissileProjectile_inline1
   value: 3
 
 Attacks.MissileProjectileLegendaryCharged_inline4:
@@ -814,16 +814,16 @@ Attacks.EMPProjectileEpicCharged:
 
 #create the inline stuff
 Attacks.EMPProjectileEpicCharged_inline1:
-  $base: Attacks.EMPProjectileCharged_inline1
+  $base: Attacks.EMPProjectileCharged_inline0
   value: -1 ## damage value
 
 Attacks.EMPProjectileEpicCharged_inline2:
-  $base: Attacks.EMPProjectileCharged_inline2
+  $base: Attacks.EMPProjectile_inline1
   value: 1
 
 Attacks.EMPProjectileEpicCharged_inline3:
   $type: gamedataStatusEffectAttackData_Record
-  $base: Attacks.EMPProjectileCharged_inline3
+  $base: Attacks.MissileProjectile_inline4
   applyImmediately: true # stun only on the rare and above
 
 ### Legendary Electric Damage Round ###
@@ -844,7 +844,7 @@ Attacks.EMPProjectileLegendary_inline2:
 
 Attacks.EMPProjectileLegendary_inline3:
   $type: gamedataStatusEffectAttackData_Record
-  $base: Attacks.EMPProjectileCharged_inline3
+  $base: Attacks.MissileProjectile_inline4
   applyImmediately: true
 
 # charged attack stuff
@@ -856,16 +856,16 @@ Attacks.EMPProjectileLegendaryCharged:
 
 #create the inline stuff
 Attacks.EMPProjectileLegendaryCharged_inline1:
-  $base: Attacks.EMPProjectileCharged_inline1
+  $base: Attacks.EMPProjectileCharged_inline0
   value: -1 ## damage value
 
 Attacks.EMPProjectileLegendaryCharged_inline2:
-  $base: Attacks.EMPProjectileCharged_inline2
+  $base: Attacks.EMPProjectile_inline1
   value: 1
 
 Attacks.EMPProjectileLegendaryCharged_inline3:
   $type: gamedataStatusEffectAttackData_Record
-  $base: Attacks.EMPProjectileCharged_inline3
+  $base: Attacks.MissileProjectile_inline4
   applyImmediately: true # stun only on the rare and above
 
 #############################################################################################################################################################################################
@@ -889,17 +889,17 @@ Attacks.ChemicalProjectileEpicCharged:
   statModifiers: [ Attacks.ChemicalProjectileCharged_inline0, Attacks.ChemicalProjectileEpicCharged_inline1, Attacks.ChemicalProjectileEpicCharged_inline2 ]
 
 Attacks.ChemicalProjectileEpicCharged_inline1:
-  $base: Attacks.ChemicalProjectileCharged_inline1
+  $base: Attacks.ChemicalProjectileCharged_inline0
   value: -1
 
 Attacks.ChemicalProjectileEpicCharged_inline2:
-  $base: Attacks.ChemicalProjectileCharged_inline2
+  $base: Attacks.ChemicalProjectile_inline1
 
 
 ### Legendary Chemical Round ###
 
 Attacks.ChemicalProjectileLegendary:
-  $base: Attacks.ThermalProjectile
+  $base: Attacks.ChemicalProjectile
   range: 3
   statModifiers: [ Attacks.ChemicalProjectile_inline0, Attacks.ChemicalProjectileLegendary_inline1, Attacks.ChemicalProjectileLegendary_inline2 ]
 
@@ -916,11 +916,11 @@ Attacks.ChemicalProjectileLegendaryCharged:
   statModifiers: [ Attacks.ChemicalProjectileCharged_inline0, Attacks.ChemicalProjectileLegendaryCharged_inline1, Attacks.ChemicalProjectileLegendaryCharged_inline2 ]
 
 Attacks.ChemicalProjectileLegendaryCharged_inline1:
-  $base: Attacks.ChemicalProjectileCharged_inline1
+  $base: Attacks.ChemicalProjectileCharged_inline0
   value: 3
 
 Attacks.ChemicalProjectileLegendaryCharged_inline2:
-  $base: Attacks.ChemicalProjectileCharged_inline2
+  $base: Attacks.ChemicalProjectile_inline1
 
 
 #############################################################################################################################################################################################
@@ -944,11 +944,11 @@ Attacks.ThermalProjectileEpicCharged:
   statModifiers: [ Attacks.ThermalProjectileCharged_inline0, Attacks.ThermalProjectileEpicCharged_inline1, Attacks.ThermalProjectileEpicCharged_inline2 ]
 
 Attacks.ThermalProjectileEpicCharged_inline1:
-  $base: Attacks.ThermalProjectileCharged_inline1
+  $base: Attacks.ThermalProjectileCharged_inline0
   value: -1
 
 Attacks.ThermalProjectileEpicCharged_inline2:
-  $base: Attacks.ThermalProjectileCharged_inline2
+  $base: Attacks.ThermalProjectile_inline1
 
 
 ### Legendary Thermal Round ###
@@ -971,8 +971,8 @@ Attacks.ThermalProjectileLegendaryCharged:
   statModifiers: [ Attacks.ThermalProjectileCharged_inline0, Attacks.ThermalProjectileLegendaryCharged_inline1, Attacks.ThermalProjectileLegendaryCharged_inline2 ]
 
 Attacks.ThermalProjectileLegendaryCharged_inline1:
-  $base: Attacks.ThermalProjectileCharged_inline1
+  $base: Attacks.ThermalProjectileCharged_inline0
   value: 3
 
 Attacks.ThermalProjectileLegendaryCharged_inline2:
-  $base: Attacks.ThermalProjectileCharged_inline2
+  $base: Attacks.ThermalProjectile_inline1

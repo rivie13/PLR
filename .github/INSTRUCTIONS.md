@@ -77,6 +77,7 @@ Use WolvenKit's Tweak Browser for TweakDB path verification.
 
 ## Testing Workflow
 
+0. Run staged lint validation before commit (YAML + Lua): `npm run precommit`
 1. Build `.archive` via WolvenKit
 2. Install mod files to game directory (WolvenKit Install button)
 3. Launch game, open CET console

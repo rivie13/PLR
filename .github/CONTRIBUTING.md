@@ -18,11 +18,15 @@ All work for the update should branch from and PR into `update/2.31`.
 
 ### YAML Tweaks
 - Files in `r6/tweaks/PLR2.0/`
-- Validate syntax: https://www.yamllint.com/
+- Validate staged YAML before commit: `npm run precommit`
+- Validate all repo YAML manually: `npm run lint:yaml`
 - Check TweakXL log after loading: `red4ext/plugins/TweakXL/TweakXL.log`
 
 ### Lua Scripts
 - Files in `bin/x64/plugins/cyber_engine_tweaks/mods/PLR/`
+- Install luacheck once (recommended): `luarocks install luacheck`
+- Validate Lua manually: `npm run lint:lua`
+- Validate staged Lua before commit: `npm run precommit`
 - CET console for testing: press `~` in-game
 - Check CET log for errors
 
