@@ -230,9 +230,9 @@ function PLR:new()
 
 
 	--ZETATECH NORMAL ATTACK RANGE STUFF
-	TweakDB:SetFlat("Attacks.ZeatechBounceRoundRare.range", settings.NewZetatechBounceRoundRareRange)
-	TweakDB:SetFlat("Attacks.ZeatechBounceRoundEpic.range", settings.NewZetatechBounceRoundEpicRange)
-	TweakDB:SetFlat("Attacks.ZeatechBounceRoundLegendary.range", settings.NewZetatechBounceRoundLegendaryRange)
+	TweakDB:SetFlat("Attacks.ZetatechBounceRoundRare.range", settings.NewZetatechBounceRoundRareRange)
+	TweakDB:SetFlat("Attacks.ZetatechBounceRoundEpic.range", settings.NewZetatechBounceRoundEpicRange)
+	TweakDB:SetFlat("Attacks.ZetatechBounceRoundLegendary.range", settings.NewZetatechBounceRoundLegendaryRange)
 
 
 	--EPIC LAUNCHER ROUNDS NORMAL ATTACK RANGE
@@ -245,7 +245,7 @@ function PLR:new()
 	--LEGENDARY LAUNCHER ROUNDS NORMAL ATTACK RANGE
 	TweakDB:SetFlat("Attacks.MissileProjectileLegendary.range", settings.NewMissileProjectileLegendaryRange)
 	TweakDB:SetFlat("Attacks.EMPProjectileLegendary.range", settings.NewEMPProjectileLegendaryRange)
-	TweakDB:SetFlat("Attacks.ThermalProjectileLegenary.range", settings.NewThermalProjectileLegendaryRange)
+	TweakDB:SetFlat("Attacks.ThermalProjectileLegendary.range", settings.NewThermalProjectileLegendaryRange)
 	TweakDB:SetFlat("Attacks.ChemicalProjectileLegendary.range", settings.NewChemicalProjectileLegendaryRange)
 
 
@@ -276,9 +276,9 @@ function PLR:new()
 
 
 	--ZETATECH charged ATTACK RANGE STUFF
-	TweakDB:SetFlat("Attacks.ZeatechBounceRoundRareCharged.range", settings.NewZetatechBounceRoundRareChargedRange)
-	TweakDB:SetFlat("Attacks.ZeatechBounceRoundEpicCharged.range", settings.NewZetatechBounceRoundEpicChargedRange)
-	TweakDB:SetFlat("Attacks.ZeatechBounceRoundLegendaryCharged.range", settings.NewZetatechBounceRoundLegendaryChargedRange)
+	TweakDB:SetFlat("Attacks.ZetatechBounceRoundRareCharged.range", settings.NewZetatechBounceRoundRareChargedRange)
+	TweakDB:SetFlat("Attacks.ZetatechBounceRoundEpicCharged.range", settings.NewZetatechBounceRoundEpicChargedRange)
+	TweakDB:SetFlat("Attacks.ZetatechBounceRoundLegendaryCharged.range", settings.NewZetatechBounceRoundLegendaryChargedRange)
 
 
 	--EPIC LAUNCHER ROUNDS charged ATTACK RANGE
@@ -291,7 +291,7 @@ function PLR:new()
 	--LEGENDARY LAUNCHER ROUNDS charged ATTACK RANGE
 	TweakDB:SetFlat("Attacks.MissileProjectileLegendaryCharged.range", settings.NewMissileProjectileLegendaryChargedRange)
 	TweakDB:SetFlat("Attacks.EMPProjectileLegendaryCharged.range", settings.NewEMPProjectileLegendaryChargedRange)
-	TweakDB:SetFlat("Attacks.ThermalProjectileLegenaryCharged.range", settings.NewThermalProjectileLegendaryChargedRange)
+	TweakDB:SetFlat("Attacks.ThermalProjectileLegendaryCharged.range", settings.NewThermalProjectileLegendaryChargedRange)
 	TweakDB:SetFlat("Attacks.ChemicalProjectileLegendaryCharged.range", settings.NewChemicalProjectileLegendaryChargedRange)
 
 
