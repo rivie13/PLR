@@ -1,0 +1,22 @@
+{
+  "name": "plr",
+  "private": true,
+  "scripts": {
+    "lint:yaml": "node scripts/run-yamllint.cjs .",
+    "lint:lua": "node scripts/run-luacheck.cjs PLR2.0",
+    "precommit": "lint-staged",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*.{yml,yaml}": [
+      "node scripts/run-yamllint.cjs"
+    ],
+    "**/*.lua": [
+      "node scripts/run-luacheck.cjs"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.1"
+  }
+}

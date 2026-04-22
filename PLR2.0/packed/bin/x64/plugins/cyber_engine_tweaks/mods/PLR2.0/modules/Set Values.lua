@@ -27,10 +27,10 @@ function PLR:new()
 	]]
 
 	--Normal Attack setting, damage that is related to player level, all RARE variants of launcher
-	TweakDB:SetFlat("Attacks.MissileProjectile_inline1.value", settings.NewMissileProjectileInlineValue1)
-	TweakDB:SetFlat("Attacks.EMPProjectile_inline1.value", settings.NewEMPProjectileInlineValue1)
-	TweakDB:SetFlat("Attacks.ThermalProjectile_inline1.value", settings.NewThermalProjectileInlineValue1)
-	TweakDB:SetFlat("Attacks.ChemicalProjectile_inline1.value", settings.NewChemicalProjectileInlineValue1)
+	TweakDB:SetFlat("Attacks.MissileProjectile_inline0.value", settings.NewMissileProjectileInlineValue1)
+	TweakDB:SetFlat("Attacks.EMPProjectile_inline0.value", settings.NewEMPProjectileInlineValue1)
+	TweakDB:SetFlat("Attacks.ThermalProjectile_inline0.value", settings.NewThermalProjectileInlineValue1)
+	TweakDB:SetFlat("Attacks.ChemicalProjectile_inline0.value", settings.NewChemicalProjectileInlineValue1)
 	TweakDB:SetFlat("Attacks.TranquilizerProjectile_inline0.value", settings.NewTranquilizerProjectileInlineValue1)
 	
 	--biotechnica
@@ -74,10 +74,10 @@ function PLR:new()
 
 
 	--Charged Attack setting, damage that is related to player level, all variants of launcher
-	TweakDB:SetFlat("Attacks.MissileProjectileCharged_inline1.value", settings.NewMissileProjectileChargedInlineValue1)
-	TweakDB:SetFlat("Attacks.EMPProjectileCharged_inline1.value", settings.NewEMPChargedProjectileInlineValue1)
-	TweakDB:SetFlat("Attacks.ThermalProjectileCharged_inline1.value", settings.NewThermalChargedProjectileInlineValue1)
-	TweakDB:SetFlat("Attacks.ChemicalProjectileCharged_inline1.value", settings.NewChemicalChargedProjectileInlineValue1)
+	TweakDB:SetFlat("Attacks.MissileProjectileCharged_inline0.value", settings.NewMissileProjectileChargedInlineValue1)
+	TweakDB:SetFlat("Attacks.EMPProjectileCharged_inline0.value", settings.NewEMPChargedProjectileInlineValue1)
+	TweakDB:SetFlat("Attacks.ThermalProjectileCharged_inline0.value", settings.NewThermalChargedProjectileInlineValue1)
+	TweakDB:SetFlat("Attacks.ChemicalProjectileCharged_inline0.value", settings.NewChemicalChargedProjectileInlineValue1)
 
 
 
@@ -120,10 +120,10 @@ function PLR:new()
 	--############################################# NORMAL SETTINGS ###################################################################
 
 	--Normal Attack setting, damage that is related to player tech attribute level, all RARE variants of launcher rounds
-	TweakDB:SetFlat("Attacks.MissileProjectile_inline2.value", settings.NewMissileProjectileInlineValue2)
-	TweakDB:SetFlat("Attacks.EMPProjectile_inline2.value", settings.NewEMPProjectileInlineValue2)
-	TweakDB:SetFlat("Attacks.ThermalProjectile_inline2.value", settings.NewThermalProjectileInlineValue2)
-	TweakDB:SetFlat("Attacks.ChemicalProjectile_inline2.value", settings.NewChemicalProjectileInlineValue2)
+	TweakDB:SetFlat("Attacks.MissileProjectile_inline1.value", settings.NewMissileProjectileInlineValue2)
+	TweakDB:SetFlat("Attacks.EMPProjectile_inline1.value", settings.NewEMPProjectileInlineValue2)
+	TweakDB:SetFlat("Attacks.ThermalProjectile_inline1.value", settings.NewThermalProjectileInlineValue2)
+	TweakDB:SetFlat("Attacks.ChemicalProjectile_inline1.value", settings.NewChemicalProjectileInlineValue2)
 	TweakDB:SetFlat("Attacks.TranquilizerProjectile_inline1.value", settings.NewTranquilizerProjectileInlineValue2)
 	
 
@@ -171,11 +171,11 @@ function PLR:new()
 	--#################################################### CHARGED SETTINGS ##############################################################
 
 
-	--Charged Attack setting, damage that is related to player tech attribute level, all variants of launcher
-	TweakDB:SetFlat("Attacks.MissileProjectileCharged_inline2.value", settings.NewMissileProjectileChargedInlineValue2)
-	TweakDB:SetFlat("Attacks.EMPProjectileCharged_inline2.value", settings.NewEMPChargedProjectileInlineValue2)
-	TweakDB:SetFlat("Attacks.ThermalProjectileCharged_inline2.value", settings.NewThermalChargedProjectileInlineValue2)
-	TweakDB:SetFlat("Attacks.ChemicalProjectileCharged_inline2.value", settings.NewChemicalChargedProjectileInlineValue2)
+	-- In 2.31, charged elemental attacks reuse parent inline1 for tech scaling.
+	TweakDB:SetFlat("Attacks.MissileProjectile_inline1.value", settings.NewMissileProjectileChargedInlineValue2)
+	TweakDB:SetFlat("Attacks.EMPProjectile_inline1.value", settings.NewEMPChargedProjectileInlineValue2)
+	TweakDB:SetFlat("Attacks.ThermalProjectile_inline1.value", settings.NewThermalChargedProjectileInlineValue2)
+	TweakDB:SetFlat("Attacks.ChemicalProjectile_inline1.value", settings.NewChemicalChargedProjectileInlineValue2)
 
 
 	--biotechnica

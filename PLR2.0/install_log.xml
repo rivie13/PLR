@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<InstalLog Project="PLR2.0" Build_date="7/19/2023 8:36:56 AM">
+<InstalLog Project="PLR2.0" Build_date="4/21/2026 5:12:28 PM">
   <Files>
     <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive">
       <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc">
@@ -36,8 +36,10 @@
     </Directory>
     <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6">
       <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks">
-        <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\new_projectile_launcher_round_attacks.yaml</file>
-        <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\new_rounds_and_changes.yaml</file>
+        <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\PLR2.0">
+          <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\PLR2.0\new_projectile_launcher_round_attacks.yaml</file>
+          <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\PLR2.0\new_rounds_and_changes.yaml</file>
+        </Directory>
       </Directory>
     </Directory>
   </Files>
