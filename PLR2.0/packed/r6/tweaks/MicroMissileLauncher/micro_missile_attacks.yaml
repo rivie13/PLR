@@ -1,0 +1,25 @@
+# =====================================================================
+# Micro Missile Launcher - Attack records
+# Part of EPIC #27 / sub-issue #28
+#
+# Phase 1 design:
+#   - Single attack used by all tiers; per-missile damage is normalized
+#     in CET via vanilla scaling. Damage curves below match the vanilla
+#     Attacks.MissileProjectile family but with per-shot damage scaled
+#     down so total burst damage ~= sqrt(N) * vanilla missile.
+#   - Charged variant exists but currently mirrors quick action;
+#     refine in a follow-up balance pass (#31).
+# =====================================================================
+
+# Quick (uncharged) micro missile attack
+Attacks.MicroMissileAttack:
+  $type: gamedataAttack_GameEffect_Record
+  $base: Attacks.MissileProjectile
+  # Smaller AoE than vanilla missile to make the salvo feel "micro"
+  range: 1.5
+
+# Charged variant - same base, slightly larger range
+Attacks.MicroMissileAttackCharged:
+  $type: gamedataAttack_GameEffect_Record
+  $base: Attacks.MissileProjectileCharged
+  range: 2.0

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<InstalLog Project="PLR2.0" Build_date="4/21/2026 5:12:28 PM">
+<InstalLog Project="PLR2.0" Build_date="4/21/2026 8:40:04 PM">
   <Files>
     <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive">
       <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\archive\pc">
@@ -24,6 +24,13 @@
                 <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules">
                   <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\Native Settings Integration.lua</file>
                   <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\Set Values.lua</file>
+                  <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\MicroMissile">
+                    <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\MicroMissile\ChargeCost.lua</file>
+                    <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\MicroMissile\Config.lua</file>
+                    <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\MicroMissile\init.lua</file>
+                    <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\MicroMissile\LauncherRegistry.lua</file>
+                    <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\MicroMissile\SalvoOverride.lua</file>
+                  </Directory>
                   <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\utils">
                     <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods\PLR2.0\modules\utils\config.lua</file>
                   </Directory>
@@ -36,6 +43,11 @@
     </Directory>
     <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6">
       <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks">
+        <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\MicroMissileLauncher">
+          <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\MicroMissileLauncher\micro_missile_attacks.yaml</file>
+          <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\MicroMissileLauncher\micro_missile_launchers.yaml</file>
+          <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\MicroMissileLauncher\micro_missile_round.yaml</file>
+        </Directory>
         <Directory Path="D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\PLR2.0">
           <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\PLR2.0\new_projectile_launcher_round_attacks.yaml</file>
           <file>D:\SteamLibrary\steamapps\common\Cyberpunk 2077\r6\tweaks\PLR2.0\new_rounds_and_changes.yaml</file>

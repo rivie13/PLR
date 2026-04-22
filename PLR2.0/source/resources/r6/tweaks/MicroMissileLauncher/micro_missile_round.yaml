@@ -1,0 +1,23 @@
+# =====================================================================
+# Micro Missile Launcher - Round item
+# Part of EPIC #27 / sub-issue #28
+#
+# Phase 1 reuses the vanilla explosive missile projectile template so we
+# do not need to ship a custom .ent. The visual is a missile; behavior
+# is controlled via the attack record and the CET salvo override.
+# =====================================================================
+
+Items.MicroMissileRound:
+  $base: Items.ExplosiveDamageRound
+  attack: Attacks.MicroMissileAttack
+  secondaryAttack: Attacks.MicroMissileAttackCharged
+  # Slightly faster than vanilla so the fan disperses cleanly
+  startVelocity: 35
+  startVelocityCharged: 45
+  # Stop on impact - micro missiles do not bounce
+  collisionAction: Stop
+  collisionActionCharged: Stop
+  # Cheap per-round; salvo cost is enforced in CET against the launcher
+  # charge stat pool, not the round's per-shot charge cost.
+  quickActionChargeCost: 1
+  chargeActionChargeCost: 1
