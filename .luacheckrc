@@ -23,6 +23,14 @@ globals = {
   "EulerAngles",
   "nativeSettings",
   "json",
+  -- Additional CET-runtime globals used by the Micro Missile module
+  "ItemID",
+  "TweakDBID",
+  "ItemModificationSystem",
+  "ESlotState",
+  "RPGManager",
+  "ProjectileLaunchHelper",
+  "gamedataStatPoolType",
 }
 
 -- Keep lint focused on correctness over formatting-only noise.

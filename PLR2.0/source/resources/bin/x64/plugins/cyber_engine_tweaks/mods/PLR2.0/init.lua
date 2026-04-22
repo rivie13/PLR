@@ -11,9 +11,9 @@
 -- more thanks given to manavortex, neon engine vangelis RMK and many others in that same discord as well.
 --
 -- Special Special thanks to dillingspam for making the Launcher Rebalance mod which inspired me to make my original cyberware AoE rework
--- which is now turning into this. 
+-- which is now turning into this.
 --------------------------------------------------------------------------
-PLR = { 
+PLR = {
     description = "PLR"
 }
 
@@ -22,14 +22,19 @@ function PLR:new()
 
 
 
-	
 
 
 
-	registerForEvent("onInit", function() 
+
+	registerForEvent("onInit", function()
 	require("modules/Native Settings Integration.lua")
 	dofile("modules/Native Settings Integration.lua")
 	dofile("modules/Set Values.lua")
+
+	-- Micro Missile Launcher demo (EPIC #27 / sub-issue #29)
+	-- Self-contained module under Modules/MicroMissile/. Safe no-op for
+	-- vanilla launchers and other PLR rounds.
+	require("Modules/MicroMissile/init")
 
 --[[
     This code below was kindly provided by psiberx. I would like to thank them for all their help and teaching
@@ -60,7 +65,7 @@ function PLR:new()
 
 ]]
 
-	print("Projectile Launcher Rework fully loaded!!")	
+	print("Projectile Launcher Rework fully loaded!!")
     end)
 
 

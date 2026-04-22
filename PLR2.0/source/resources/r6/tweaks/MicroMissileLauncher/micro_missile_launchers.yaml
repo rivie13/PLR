@@ -1,0 +1,76 @@
+# =====================================================================
+# Micro Missile Launcher - Launcher items
+# Part of EPIC #27 / sub-issue #28
+#
+# Phase 1 ships 3 vanilla quality tiers + 1 iconic:
+#   - Items.MicroMissileLauncherRare       (base on vanilla Items.ProjectileLauncher)
+#   - Items.MicroMissileLauncherEpic       (base on Items.ProjectileLauncherEpic)
+#   - Items.MicroMissileLauncherLegendary  (base on Items.ProjectileLauncherLegendary)
+#   - Items.MicroMissileLauncherIconic     (base on legendary, IsItemIconic + crit chance)
+#
+# All variants:
+#   - Carry the "MicroMissileLauncher" tag for CET-side detection
+#   - Default-equip Items.MicroMissileRound in the round slot
+#
+# Phase 1 leaves displayName inherited from vanilla launcher (LocKey#3722).
+# Proper localization is a follow-up.
+# =====================================================================
+
+# ---------- RARE ----------
+Items.MicroMissileLauncherRare:
+  $base: Items.ProjectileLauncher
+  tags: !append [ MicroMissileLauncher ]
+  slotPartListPreset: !append
+    - Items.MicroMissileLauncherRare_inline_round
+
+Items.MicroMissileLauncherRare_inline_round:
+  $type: gamedataSlotItemPartPreset_Record
+  slot: AttachmentSlots.ProjectileLauncherRound
+  itemPartPreset: Items.MicroMissileRound
+
+# ---------- EPIC ----------
+Items.MicroMissileLauncherEpic:
+  $base: Items.ProjectileLauncherEpic
+  tags: !append [ MicroMissileLauncher ]
+  slotPartListPreset: !append
+    - Items.MicroMissileLauncherEpic_inline_round
+
+Items.MicroMissileLauncherEpic_inline_round:
+  $type: gamedataSlotItemPartPreset_Record
+  slot: AttachmentSlots.ProjectileLauncherRound
+  itemPartPreset: Items.MicroMissileRound
+
+# ---------- LEGENDARY ----------
+Items.MicroMissileLauncherLegendary:
+  $base: Items.ProjectileLauncherLegendary
+  tags: !append [ MicroMissileLauncher ]
+  slotPartListPreset: !append
+    - Items.MicroMissileLauncherLegendary_inline_round
+
+Items.MicroMissileLauncherLegendary_inline_round:
+  $type: gamedataSlotItemPartPreset_Record
+  slot: AttachmentSlots.ProjectileLauncherRound
+  itemPartPreset: Items.MicroMissileRound
+
+# ---------- ICONIC ----------
+# Tracked under sub-issue #30. Inherits legendary salvo behavior and adds:
+#   - IsItemIconic flag (so the UI treats it as iconic)
+#   - CritChance bumped to 1.0 (guaranteed crit per missile)
+Items.MicroMissileLauncherIconic:
+  $base: Items.MicroMissileLauncherLegendary
+  tags: !append [ MicroMissileLauncherIconic ]
+  statModifiers: !append
+    - Items.MicroMissileLauncherIconic_inline_iconic
+    - Items.MicroMissileLauncherIconic_inline_crit
+
+Items.MicroMissileLauncherIconic_inline_iconic:
+  $type: gamedataConstantStatModifier_Record
+  statType: BaseStats.IsItemIconic
+  modifierType: Additive
+  value: 1
+
+Items.MicroMissileLauncherIconic_inline_crit:
+  $type: gamedataConstantStatModifier_Record
+  statType: BaseStats.CritChance
+  modifierType: Additive
+  value: 1.0
