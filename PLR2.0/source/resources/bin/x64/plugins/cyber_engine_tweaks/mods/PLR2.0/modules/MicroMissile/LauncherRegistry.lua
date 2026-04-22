@@ -2,65 +2,66 @@
 -- Micro Missile Launcher - LauncherRegistry
 -- Part of EPIC #27 / sub-issue #29
 --
--- Stateless helpers that decide whether the currently-equipped left-hand
--- weapon is one of our micro missile launchers, and which tier it is.
---
 -- Detection strategy:
---   1. Read TDBID tags on the WeaponItem record.
---   2. If it does not carry the "MicroMissileLauncher" tag, return nil
---      so the salvo override falls through to vanilla behavior.
---   3. Map TweakDB Quality enum -> Config.tiers key.
+--   * Inspect the TDBID-name string of the equipped item against a
+--     known set of micro-launcher record IDs. This is more reliable
+--     than reading record:Tags() because tag entries are CName and
+--     string comparison varies between CET versions.
+--   * Map item ID -> Config.tiers entry.
 --------------------------------------------------------------------------
 
 local Config = require("Modules/MicroMissile/Config")
 
 local LauncherRegistry = {}
 
--- Returns true if the given WeaponObject is a micro missile launcher.
--- weapon: ref<WeaponObject>
-local function HasMicroMissileTag(weapon)
-    if not weapon then return false end
-    local itemID = weapon:GetItemID()
-    if not itemID then return false end
-    local record = TweakDB:GetRecord(ItemID.GetTDBID(itemID))
-    if not record then return false end
-    local tags = record:Tags()
-    if not tags then return false end
-    for _, tag in ipairs(tags) do
-        if tag == Config.LAUNCHER_TAG then
-            return true
-        end
+-- Map of TweakDB record name -> Config.tiers key.
+-- Keep in sync with the YAML records.
+local KNOWN_LAUNCHERS = {
+    ["Items.MicroMissileLauncherRare"]      = "Rare",
+    ["Items.MicroMissileLauncherEpic"]      = "Epic",
+    ["Items.MicroMissileLauncherLegendary"] = "Legendary",
+    ["Items.MicroMissileLauncherIconic"]    = "Legendary",
+}
+
+local function TDBIDName(tdbid)
+    if not tdbid then return nil end
+    if TDBID and TDBID.ToStringDEBUG then
+        return TDBID.ToStringDEBUG(tdbid)
     end
-    return false
+    return tostring(tdbid)
 end
 
--- Returns "Rare" | "Epic" | "Legendary" | nil based on the launcher's
--- WeaponItem quality.
-local function GetTierName(weapon)
-    if not weapon then return nil end
-    local itemID = weapon:GetItemID()
-    local record = TweakDB:GetRecord(ItemID.GetTDBID(itemID))
-    if not record then return nil end
-    local quality = record:Quality()
-    if not quality then return nil end
-    local qName = quality:Name()
-    if qName == "Rare" or qName == "Epic" or qName == "Legendary" then
-        return qName
-    end
-    -- Iconic still inherits Legendary chassis -> map to Legendary tier.
-    return "Legendary"
+local function GetTierNameFromItemID(itemID)
+    if not itemID then return nil end
+    local tdbid = ItemID.GetTDBID(itemID)
+    local name = TDBIDName(tdbid)
+    if not name then return nil end
+    return KNOWN_LAUNCHERS[name]
 end
 
--- Public API
+function LauncherRegistry.GetTierFromItemID(itemID)
+    local name = GetTierNameFromItemID(itemID)
+    if not name then return nil end
+    return Config.tiers[name]
+end
+
+function LauncherRegistry.IsMicroMissileLauncherItemID(itemID)
+    return GetTierNameFromItemID(itemID) ~= nil
+end
+
+-- Back-compat wrappers (in case anything still passes a WeaponObject).
 function LauncherRegistry.IsMicroMissileLauncher(weapon)
-    return HasMicroMissileTag(weapon)
+    if not weapon then return false end
+    local ok, itemID = pcall(function() return weapon:GetItemID() end)
+    if not ok or not itemID then return false end
+    return LauncherRegistry.IsMicroMissileLauncherItemID(itemID)
 end
 
 function LauncherRegistry.GetTier(weapon)
-    if not HasMicroMissileTag(weapon) then return nil end
-    local name = GetTierName(weapon)
-    if not name then return nil end
-    return Config.tiers[name]
+    if not weapon then return nil end
+    local ok, itemID = pcall(function() return weapon:GetItemID() end)
+    if not ok or not itemID then return nil end
+    return LauncherRegistry.GetTierFromItemID(itemID)
 end
 
 return LauncherRegistry

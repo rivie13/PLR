@@ -6,25 +6,33 @@
 -- chokepoint for arms-launcher firing in 2.31, see
 -- cyberpunk/player/psm/leftHandCyberwareTransitions.swift line ~113).
 --
--- For micro missile launchers we:
---   1. Resolve the currently-installed projectile template from the
---      same TweakDB path vanilla uses.
---   2. Spawn N projectiles in a fan via
---      ProjectileLaunchHelper.SpawnArmsLauncherProjectileWithRotation.
---   3. Drain extra charges proportional to N * costMult.
---   4. Mirror the telemetry call vanilla makes.
---
--- For everything else we call wrapped(...) so vanilla launchers and any
--- other PLR rounds are completely unaffected.
+-- Design notes / diagnostics:
+--   * GetLeftHandWeaponObject is `protected final` in REDscript and is
+--     not reliably callable from a CET Override callback. Instead we
+--     replicate vanilla's own resolve path:
+--         scriptInterface:GetTransactionSystem()
+--           :GetItemInSlot(executionOwner, RPGManager.GetAttachmentSlotID("WeaponLeft"))
+--     which returns the equipped left-hand ItemObject (i.e. the
+--     launcher itself) using only public APIs.
+--   * EVERYTHING custom is wrapped in pcall. If our salvo logic ever
+--     errors, we always fall through to wrapped() so vanilla launchers
+--     and any other PLR rounds keep firing.
+--   * Verbose prints are gated behind Config.DEBUG so they can be
+--     toggled without code edits.
 --------------------------------------------------------------------------
 
+local Config           = require("Modules/MicroMissile/Config")
 local LauncherRegistry = require("Modules/MicroMissile/LauncherRegistry")
 local ChargeCost       = require("Modules/MicroMissile/ChargeCost")
 
 local SalvoOverride = {}
 
--- Build the spread offsets (in degrees). For N=1 returns {0}. For N>1
--- distributes evenly across [-spread/2, +spread/2].
+local function dprint(msg)
+    if Config and Config.DEBUG then
+        print("[PLR/MicroMissile] " .. tostring(msg))
+    end
+end
+
 local function BuildOffsets(n, totalSpreadDeg)
     if n <= 1 then return { 0.0 } end
     local offsets = {}
@@ -36,10 +44,18 @@ local function BuildOffsets(n, totalSpreadDeg)
     return offsets
 end
 
+-- Public-API equivalent of LeftHandCyberwareTransition.GetLeftHandWeaponObject.
+local function GetLeftHandItemObject(scriptInterface)
+    if not scriptInterface then return nil end
+    local owner = scriptInterface.executionOwner
+    if not owner then return nil end
+    local ts = scriptInterface:GetTransactionSystem()
+    if not ts then return nil end
+    local slotID = RPGManager.GetAttachmentSlotID("WeaponLeft")
+    return ts:GetItemInSlot(owner, slotID)
+end
+
 local function GetInstalledRoundTemplate(scriptInterface, leftHandItemObj)
-    -- Walk the item's part slots to find the one in
-    -- AttachmentSlots.ProjectileLauncherRound (matches vanilla
-    -- GetCurrentlyInstalledProjectile).
     local owner = scriptInterface.executionOwner
     local slots = ItemModificationSystem.GetAllSlots(owner, leftHandItemObj:GetItemID())
     if not slots or #slots == 0 then return nil end
@@ -54,42 +70,58 @@ local function GetInstalledRoundTemplate(scriptInterface, leftHandItemObj)
     return nil
 end
 
+local function FireSalvo(scriptInterface, angleOffset, leftHandItemObj, tier)
+    local owner = scriptInterface.executionOwner
+    local template = GetInstalledRoundTemplate(scriptInterface, leftHandItemObj)
+    if not template then
+        dprint("FireSalvo: no installed round template, falling back")
+        return false
+    end
+
+    local baseAngle = angleOffset or 0.0
+    local offsets = BuildOffsets(tier.missiles, tier.spreadDeg)
+    for _, off in ipairs(offsets) do
+        ProjectileLaunchHelper.SpawnArmsLauncherProjectileWithRotation(
+            owner, template, leftHandItemObj, baseAngle + off
+        )
+    end
+
+    pcall(function()
+        ChargeCost.ApplyExtraDrain(scriptInterface, tier.missiles, tier.costMult)
+    end)
+
+    pcall(function()
+        Game.GetTelemetrySystem():LogActiveCyberwareUsed(owner, leftHandItemObj:GetItemID())
+    end)
+
+    dprint(string.format("Fired salvo of %d missiles, spread=%.1f deg", tier.missiles, tier.spreadDeg))
+    return true
+end
+
 function SalvoOverride.Install()
     Override("LeftHandCyberwareTransition", "DetachProjectile",
-    function(this, scriptInterface, angleOffset, wrapped)
-        local weapon = this:GetLeftHandWeaponObject(scriptInterface)
-        local tier = LauncherRegistry.GetTier(weapon)
-        if not tier then
-            -- Not one of ours. Vanilla path.
+    function(_this, scriptInterface, angleOffset, wrapped)
+        local ok, leftHandItemObj = pcall(GetLeftHandItemObject, scriptInterface)
+        if not ok or not leftHandItemObj then
+            dprint("DetachProjectile: no left-hand item, vanilla path")
             return wrapped(scriptInterface, angleOffset)
         end
 
-        local owner = scriptInterface.executionOwner
-        local leftHandItemObj = scriptInterface
-            :GetTransactionSystem()
-            :GetItemInSlot(owner, RPGManager.GetAttachmentSlotID("WeaponLeft"))
-        if not leftHandItemObj then
+        local tierOk, tier = pcall(LauncherRegistry.GetTierFromItemID, leftHandItemObj:GetItemID())
+        if not tierOk or not tier then
             return wrapped(scriptInterface, angleOffset)
         end
 
-        local template = GetInstalledRoundTemplate(scriptInterface, leftHandItemObj)
-        if not template then
+        dprint(string.format("DetachProjectile: micro launcher detected, missiles=%d", tier.missiles))
+
+        local salvoOk, salvoErr = pcall(FireSalvo, scriptInterface, angleOffset, leftHandItemObj, tier)
+        if not salvoOk then
+            print("[PLR/MicroMissile] FireSalvo error: " .. tostring(salvoErr) .. " - falling back to vanilla")
             return wrapped(scriptInterface, angleOffset)
         end
-
-        local baseAngle = angleOffset or 0.0
-        local offsets = BuildOffsets(tier.missiles, tier.spreadDeg)
-        for _, off in ipairs(offsets) do
-            ProjectileLaunchHelper.SpawnArmsLauncherProjectileWithRotation(
-                owner, template, leftHandItemObj, baseAngle + off
-            )
-        end
-
-        ChargeCost.ApplyExtraDrain(scriptInterface, tier.missiles, tier.costMult)
-
-        Game.GetTelemetrySystem()
-            :LogActiveCyberwareUsed(owner, leftHandItemObj:GetItemID())
     end)
+
+    print("[PLR/MicroMissile] DetachProjectile override installed")
 end
 
 return SalvoOverride

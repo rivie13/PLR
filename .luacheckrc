@@ -31,6 +31,7 @@ globals = {
   "RPGManager",
   "ProjectileLaunchHelper",
   "gamedataStatPoolType",
+  "TDBID",
 }
 
 -- Keep lint focused on correctness over formatting-only noise.

@@ -15,6 +15,9 @@ local Config = {}
 Config.LAUNCHER_TAG = "MicroMissileLauncher"
 Config.ICONIC_TAG   = "MicroMissileLauncherIconic"
 
+-- Set to true to print salvo diagnostics to the CET console.
+Config.DEBUG = true
+
 -- Tier table keyed by gamedataQuality enum value.
 -- missiles    = number of projectiles per shot
 -- costMult    = multiplier on the base shoot cost (1.0 = vanilla cost)
